@@ -31,6 +31,7 @@ import { BooleanActionPanel }  from './BooleanActionPanel';
 import { ConstraintPanel }     from './ConstraintPanel';
 import { CADConsolePanel }      from './panels/CADConsolePanel';
 import { CADProjectPanel }      from './panels/CADProjectPanel';
+import { PBRWorkbenchPanel } from './PBRWorkbenchPanel';
 import { AdvancedLoftPanel }    from './panels/AdvancedLoftPanel';
 import { Icon }                 from './Icon';
 import { CADViewPreset } from '../services/CADCameraService';
@@ -232,6 +233,8 @@ export const CADLayout: React.FC = () => {
       position: { referencePanel: 'viewport', direction: 'below' }, initialHeight: 130 });
     event.api.addPanel({ id: 'projects',   component: 'projectsView',  title: 'Projects',
       position: { referencePanel: 'properties', direction: 'within' } });
+    event.api.addPanel({ id: 'pbr-workbench', component: 'pbrWorkbench', title: 'PBR Engineering',
+      position: { referencePanel: 'viewport', direction: 'within' } });
     // Advanced (guided) Loft authoring is now a floating dialog over the viewport
     // (see AdvancedLoftPanel below), not a docked sidebar tab.
     event.api.onDidLayoutChange(() => resizeFnRef.current?.());
@@ -254,6 +257,7 @@ export const CADLayout: React.FC = () => {
     propertiesView: () => <ErrorBoundary label="Properties"><PropertiesPanel /></ErrorBoundary>,
     consoleView:    () => <ErrorBoundary label="Console"><CADConsolePanel /></ErrorBoundary>,
     projectsView:   () => <ErrorBoundary label="Projects"><CADProjectPanel /></ErrorBoundary>,
+    pbrWorkbench:  () => <ErrorBoundary label="PBR Engineering"><PBRWorkbenchPanel /></ErrorBoundary>,
   };
 
   return (
