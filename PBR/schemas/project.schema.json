@@ -1,0 +1,69 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.invalid/pbr/project.schema.json",
+  "title": "PBR Digital Biosphere Project",
+  "type": "object",
+  "required": ["schemaVersion", "project", "world", "components", "connections"],
+  "properties": {
+    "schemaVersion": { "const": "1.0.0" },
+    "project": {
+      "type": "object",
+      "required": ["id", "name", "createdAt", "units"],
+      "properties": {
+        "id": { "type": "string", "minLength": 1 },
+        "name": { "type": "string", "minLength": 1 },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "units": { "const": "SI" },
+        "description": { "type": "string" }
+      },
+      "additionalProperties": false
+    },
+    "world": {
+      "type": "object",
+      "required": ["coordinateSystem", "gravity"],
+      "properties": {
+        "coordinateSystem": { "const": "right-handed-cartesian" },
+        "gravity": { "type": "array", "prefixItems": [
+          { "type": "number" }, { "type": "number" }, { "type": "number" }
+        ], "items": false, "minItems": 3, "maxItems": 3 }
+      },
+      "additionalProperties": false
+    },
+    "components": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "kind", "name", "domain", "parameters"],
+        "properties": {
+          "id": { "type": "string", "minLength": 1 },
+          "kind": { "type": "string", "minLength": 1 },
+          "name": { "type": "string", "minLength": 1 },
+          "domain": { "enum": ["external-water", "culture-liquid", "gas-headspace", "crop-root-zone", "internal-air", "solid"] },
+          "parameters": { "type": "object" },
+          "material": { "type": "string" },
+          "provenance": { "type": "object" },
+          "geometryRef": { "type": "string" }
+        },
+        "additionalProperties": false
+      }
+    },
+    "connections": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "fromComponent", "fromPort", "toComponent", "toPort", "medium"],
+        "properties": {
+          "id": { "type": "string" },
+          "fromComponent": { "type": "string" },
+          "fromPort": { "type": "string" },
+          "toComponent": { "type": "string" },
+          "toPort": { "type": "string" },
+          "medium": { "enum": ["liquid", "gas", "heat", "optical", "mechanical", "data"] }
+        },
+        "additionalProperties": false
+      }
+    },
+    "simulationRefs": { "type": "array", "items": { "type": "string" } }
+  },
+  "additionalProperties": false
+}
